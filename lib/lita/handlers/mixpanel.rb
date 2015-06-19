@@ -1,3 +1,5 @@
+require 'mixpanel_stats'
+
 module Lita
   module Handlers
     class Mixpanel < Handler
@@ -5,20 +7,38 @@ module Lita
       def self.default_config(config)
         config.api_key = nil
         config.api_secret = nil
-        config.funnels = []
+        config.funnels = nil
       end
 
-      route %r{(mixpanel funnels)}i,
-        :funnels,
+      route %r{(mixpanel)}i,
+        :funnels_stats,
         command: true,
         help: {
           "mixpanel funnels" => "gets recent funnels performance from mixpanel"}
 
-      def funnels(response)
-        response.reply "Configured funnels: #{funnel_ids}"
+      def funnels_stats(response)
+        (funnels || []).each do |id, name|
+          funnel_stats = generate_funnel_stats(id)
+          msg = "Funnel performance for: #{name}\n"
+          msg << funnel_stats
+          response.reply msg
+        end
       end
 
-      def funnel_ids
+      def generate_funnel_stats(funnel_id)
+        to = Date.today
+        from = Date.today - 7
+        mixpanel.funnel_chart(funnel_id, from, to)
+      end
+
+      def mixpanel
+        @mixpanel ||= MixpanelStats.new(
+          Lita.config.handlers.mixpanel.api_key,
+          Lita.config.handlers.mixpanel.api_secret,
+        )
+      end
+
+      def funnels
         Lita.config.handlers.mixpanel.funnels
       end
 
