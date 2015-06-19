@@ -1,12 +1,12 @@
 Gem::Specification.new do |spec|
   spec.name          = "lita-mixpanel"
-  spec.version       = "0.1.0"
+  spec.version       = "0.2.0"
   spec.authors       = ["Eugen Martin"]
   spec.email         = ["eugeniusmartinus@gmail.com"]
-  spec.description   = "TODO: Add a description"
-  spec.summary       = "TODO: Add a summary"
-  spec.homepage      = "TODO: Add a homepage"
-  spec.license       = "TODO: Add a license"
+  spec.description   = "a mixpanl plugin for lita chat-bot"
+  spec.summary       = "Is a handler for [Lita](https://github.com/jimmycuadra/lita) that provides current KPI information from mixpanel"
+  spec.homepage      = "https://github.com/olgen/lita-mixpanel"
+  spec.license       = "http://opensource.org/licenses/MIT"
   spec.metadata      = { "lita_plugin_type" => "handler" }
 
   spec.files         = `git ls-files`.split($/)
