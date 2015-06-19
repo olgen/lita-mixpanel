@@ -21,7 +21,7 @@ module Lita
           funnel_stats = generate_funnel_stats(id)
           msg = "Funnel performance for: #{name}\n"
           msg << funnel_stats
-          response.reply msg
+          response.reply "/code " + msg
         end
       end
 
