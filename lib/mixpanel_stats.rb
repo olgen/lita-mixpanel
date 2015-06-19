@@ -63,10 +63,27 @@ class FunnelChart
   end
 
   def to_s
+    stats = []
     parts = @dates.map do |date|
-      date_stats(date)
+      stat = date_stats(date)
+      stats << stat
+      line = format_line(date, stat)
+      line << " <- today" if date == Date.today.iso8601
+      line
     end
+    parts << "-"*20
+    parts << format_line("TOTAL     ", calc_totals(stats))
     parts.join("\n")
+  end
+
+  def calc_totals(stats)
+    total_completion, total_start = 0,0,0
+    stats.each do |_, completion, start|
+      total_completion += completion
+      total_start += start
+    end
+    total_cr = total_completion.to_f/total_start.to_f
+    return [total_cr, total_completion, total_start]
   end
 
   def date_stats(date)
@@ -75,9 +92,12 @@ class FunnelChart
     start = analysis['starting_amount']
     completion = analysis['completion']
     cr = completion.to_f / start.to_f
-    line = "#{date} CR=#{percent(cr)}     #{completion}/#{start}"
-    line << " <- today" if date == Date.today.iso8601
-    line
+    [cr, completion, start]
+  end
+
+  def format_line(title, stats)
+    cr, completion, start = stats
+    "#{title} CR=#{percent(cr)}   #{completion}/#{start}"
   end
 
   def percent(float)
