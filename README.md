@@ -1,6 +1,6 @@
 # lita-mixpanel
 
-TODO: Add a description of the plugin.
+**lita-mixpanel** is a handler for [Lita](https://github.com/jimmycuadra/lita) that provides current KPI information from mixpanel
 
 ## Installation
 
@@ -10,10 +10,25 @@ Add lita-mixpanel to your Lita instance's Gemfile:
 gem "lita-mixpanel"
 ```
 
+
 ## Configuration
 
-TODO: Describe any configuration attributes the plugin exposes.
+This plugin requires a working mixpanel account & api_key & api_secret:
+
+``` ruby
+  config.handlers.mixpanel.api_key = 'MIXPANEL_API_KEY'
+  config.handlers.mixpanel.api_secret = 'MIXPANEL_API_SECRET'
+  config.handlers.mixpanel.funnels = {
+    "funnel_id" =>"funnel name",
+  }
+```
 
 ## Usage
 
-TODO: Describe the plugin's features and how to use them.
+```
+Lita: mixpanel funnels
+```
+
+## License
+
+[MIT](http://opensource.org/licenses/MIT)
